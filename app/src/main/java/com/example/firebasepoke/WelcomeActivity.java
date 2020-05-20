@@ -54,7 +54,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+
     }
+
     public void getUserProfile() {
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
         if (acct != null) {
@@ -63,6 +65,7 @@ public class WelcomeActivity extends AppCompatActivity {
             name.setText("Name : " + personName);
             email.setText("Email : " + personEmail);
 
+            System.out.println(acct.getIdToken());
             FirebaseInstanceId.getInstance().getInstanceId()
                     .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                         @Override
@@ -88,21 +91,7 @@ public class WelcomeActivity extends AppCompatActivity {
         sendPushToSingleInstance(this, hashMap, token.getText().toString());
     }
 
-    public void signOut(View view) {
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(WelcomeActivity.this, "SignOut Success!!", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                        finish();
-                    }
-
-                });
-    }
-
     public static void sendPushToSingleInstance(final Context activity, final HashMap dataValue, final String instanceIdToken) {
-
 
         final String url = "https://fcm.googleapis.com/fcm/send";
         StringRequest myReq = new StringRequest(Request.Method.POST, url,
@@ -145,4 +134,18 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Volley.newRequestQueue(activity).add(myReq);
     }
+
+    public void signOut(View view) {
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(WelcomeActivity.this, "SignOut Success!!", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                        finish();
+                    }
+
+                });
+    }
+
 }

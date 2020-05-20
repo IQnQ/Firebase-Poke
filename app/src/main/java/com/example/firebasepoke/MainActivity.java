@@ -17,10 +17,8 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-
-
     private GoogleSignInClient mGoogleSignInClient;
+
     SignInButton signin;
     int RC_SIGN_IN = 0;
 
@@ -50,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
+
+
 
     @Override
     protected void onStart() {
